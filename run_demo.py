@@ -3,7 +3,7 @@ from sanitipy import DataCleaner
 
 def main():
     df = pd.DataFrame({
-        "A": [1, None, None, None],
+        "A": [None, None, None, None],
         "B": [1, 1, 1, 1]
     })
 
@@ -14,6 +14,9 @@ def main():
 
     print("\nQUALITY ISSUES:")
     print(dc.check_quality())
+    
+    print("\nQUALITY Score:")
+    print(dc.quality_score())
 
 if __name__ == "__main__":
     main()

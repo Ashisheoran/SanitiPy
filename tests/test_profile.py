@@ -45,3 +45,16 @@ def test_high_missing_rule():
     results = DataCleaner(df).check_quality()
 
     assert any(r["rule"] == "high_missing" for r in results)
+
+def test_quality_score_basic():
+    df = pd.DataFrame({
+        "A": [None, None, None, None],    # high missing
+        "B": [1,1,1,1],                 #constant
+    })
+
+    dc = DataCleaner(df)
+    score = dc.quality_score()
+
+    assert score["score"] < 100
+    assert score["total_penalty"] > 0
+    assert "penalties" in score

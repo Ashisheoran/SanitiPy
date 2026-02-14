@@ -41,7 +41,7 @@ class DataProfiler:
     def _dataset_summary(self) -> Dict[str,Any]:
         return {
             "rows": int(self._original_df.shape[0]),
-            "cols": int(self._original_df.shape[1]),
+            "columns": int(self._original_df.shape[1]),
             "memory_bytes": int(self._original_df.memory_usage(deep=True).sum()),
             "sampled": self._sampled,
             "sample_size": int(len(self._df)),

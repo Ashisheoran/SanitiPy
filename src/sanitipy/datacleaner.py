@@ -3,6 +3,7 @@ import pandas as pd
 from typing import Any, Dict, List, Optional
 
 from sanitipy.core.profiler import DataProfiler
+from sanitipy.core.scoring import QualityScorer
 from sanitipy.core.quality import (
     RuleEngine,
     HighCardinalityRule,
@@ -47,7 +48,13 @@ class DataCleaner:
         return engine.run(self._profile_cache)
     
     def quality_score(self):
-        raise NotImplementedError
+        if self._profile_cache is None:
+            self.profile()
+
+        issues = self.check_quality()
+
+        scorer = QualityScorer()
+        return scorer.score(self._profile_cache, issues)
     
     # ------ML Suggestions------
     def suggest_fixes(self, confidene_threshold: float = 0.8):
