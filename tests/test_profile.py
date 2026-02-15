@@ -58,3 +58,55 @@ def test_quality_score_basic():
     assert score["score"] < 100
     assert score["total_penalty"] > 0
     assert "penalties" in score
+
+def test_apply_fixes_impute():
+    df = pd.DataFrame({"A": [1, None, 3]})
+    dc = DataCleaner(df)
+
+    fixes = [{"column": "A", "operation": "impute_mean"}]
+    clean_df = dc.apply_fixes(fixes)
+
+    assert clean_df["A"].isna().sum() == 0
+    assert df["A"].isna().sum() == 1 
+
+def test_drop_column():
+    df = pd.DataFrame({"A":[1,2], "B": [3,4]})
+    dc = DataCleaner(df)
+
+    fixes = [{"column": "A", "operation": "drop_column"}]
+    clean_df = dc.apply_fixes(fixes)
+
+    assert "A" not in clean_df.columns
+    assert "A" in df.columns
+
+def test_drop_duplicates():
+
+    df = pd.DataFrame({"A": [1, 1, 2]})
+    dc = DataCleaner(df)
+
+    fixes = [{"column": None, "operation": "drop_duplicates"}]
+    clean_df = dc.apply_fixes(fixes)
+
+    assert len(clean_df) == 2
+    assert len(df) == 3
+
+def test_strip_strings():
+
+    df = pd.DataFrame({"A": [" x ", " y "]})
+    dc = DataCleaner(df)
+
+    fixes = [{"column": "A", "operation": "strip_strings"}]
+    clean_df = dc.apply_fixes(fixes)
+
+    assert clean_df["A"].tolist() == ["x", "y"]
+
+import pytest
+def test_unknown_operation():
+
+    df = pd.DataFrame({"A": [1, 2]})
+    dc = DataCleaner(df)
+
+    fixes = [{"column": "A", "operation": "unknown_op"}]
+
+    with pytest.raises(ValueError):
+        dc.apply_fixes(fixes)

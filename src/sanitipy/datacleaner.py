@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional
 
 from sanitipy.core.profiler import DataProfiler
 from sanitipy.core.scoring import QualityScorer
+from sanitipy.cleaning.deterministic import FixApplier
 from sanitipy.core.quality import (
     RuleEngine,
     HighCardinalityRule,
@@ -62,8 +63,12 @@ class DataCleaner:
     
     # ------Apply------
     def apply_fixes(self, approved):
-        raise NotImplementedError
-    
+        if not isinstance(approved, List):
+            raise TypeError("approved must be a list of fix dictionaries")
+
+        applier = FixApplier()
+        return applier.apply(self._df, approved)
+
     # ------Reporting------
     def export_report(self, format: str = "json"):
         raise NotImplementedError
