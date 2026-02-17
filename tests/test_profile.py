@@ -110,3 +110,42 @@ def test_unknown_operation():
 
     with pytest.raises(ValueError):
         dc.apply_fixes(fixes)
+
+def test_suggest_fixes_numeric_missing():
+    df = pd.DataFrame({"A": [1, None, None]})
+    dc = DataCleaner(df)
+
+    suggestions = dc.suggest_fixes()
+
+    assert any(s["operation"] == "impute_median" for s in suggestions)
+
+def test_suggest_full_missing_column():
+
+    df = pd.DataFrame({"A": [None, None, None]})
+    dc = DataCleaner(df)
+
+    suggestions = dc.suggest_fixes()
+
+    assert any(s["operation"] == "drop_column" for s in suggestions)
+    assert not any(s["operation"] == "impute_mode" for s in suggestions)
+
+def test_suggest_high_cardinality():
+
+    df = pd.DataFrame({
+        "user_id": [f"user_{i}" for i in range(50)]
+    })
+
+    dc = DataCleaner(df)
+    suggestions = dc.suggest_fixes()
+
+    assert any(s["operation"] == "drop_column" for s in suggestions)
+
+def test_suggestion_deduplication():
+
+    df = pd.DataFrame({"A": [None, None, None]})
+    dc = DataCleaner(df)
+
+    suggestions = dc.suggest_fixes()
+
+    drop_ops = [s for s in suggestions if s["operation"] == "drop_column"]
+    assert len(drop_ops) == 1

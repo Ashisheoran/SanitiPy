@@ -78,4 +78,5 @@ class FixApplier:
                 new_df = func(new_df, column, params)
 
         return new_df
-
+    
+    

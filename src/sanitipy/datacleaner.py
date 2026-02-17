@@ -5,6 +5,7 @@ from typing import Any, Dict, List, Optional
 from sanitipy.core.profiler import DataProfiler
 from sanitipy.core.scoring import QualityScorer
 from sanitipy.cleaning.deterministic import FixApplier
+from sanitipy.core.suggestions import DeterministicSuggestionEngine
 from sanitipy.core.quality import (
     RuleEngine,
     HighCardinalityRule,
@@ -40,8 +41,8 @@ class DataCleaner:
         
         rules = [
             HighMissingRule(),
-            HighCardinalityRule(),
             ConstantColumnRule(),
+            HighCardinalityRule(),
             DuplicateRateRule(),
         ]
 
@@ -58,8 +59,19 @@ class DataCleaner:
         return scorer.score(self._profile_cache, issues)
     
     # ------ML Suggestions------
-    def suggest_fixes(self, confidene_threshold: float = 0.8):
-        raise NotImplementedError
+    def suggest_fixes(self, confidence_threshold: float = 0.0):
+        if self._profile_cache == None:
+            self.profile()
+
+        issues = self.check_quality()
+
+        engine = DeterministicSuggestionEngine()
+        suggestions = engine.generate(self._profile_cache, issues)
+
+        return [
+            s for s in suggestions
+            if s["confidence"] >= confidence_threshold
+        ]
     
     # ------Apply------
     def apply_fixes(self, approved):
