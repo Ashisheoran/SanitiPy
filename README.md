@@ -251,3 +251,4 @@ MIT License
 SanitiPy aims to become a lightweight but powerful data quality foundation layer for modern Python data stacks — sitting between raw ingestion and analytics/ML pipelines.
 
 Transparent. Deterministic. Extensible. Production-ready.
+"# trigger CI" 
