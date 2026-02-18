@@ -8,13 +8,25 @@ version = "0.1.0"
 description = "Intelligent Data Quality Analysis and ML-Assisted Data Cleaning"
 readme = "README.md"
 requires-python = ">=3.9"
-license = { text = "MIT" }
-authors = [{ name = "Ashish Sheoran" }]
+license = { file = "LICENSE" }
+authors = [
+    { name = "Ashish Sheoran", email = "ashisheoarn1@gmail.com"}
+]
 
 dependencies = [
     "pandas>=1.5",
     "numpy>=1.23",
     "scikit-learn>=1.2"
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
 ]
 
 [project.optional-dependencies]

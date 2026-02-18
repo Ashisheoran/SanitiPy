@@ -6,6 +6,7 @@ from sanitipy.core.profiler import DataProfiler
 from sanitipy.core.scoring import QualityScorer
 from sanitipy.cleaning.deterministic import FixApplier
 from sanitipy.core.suggestions import DeterministicSuggestionEngine
+from sanitipy.report.exporter import ReportBuilder, JSONExporter
 from sanitipy.core.quality import (
     RuleEngine,
     HighCardinalityRule,
@@ -82,5 +83,24 @@ class DataCleaner:
         return applier.apply(self._df, approved)
 
     # ------Reporting------
-    def export_report(self, format: str = "json"):
-        raise NotImplementedError
+    def export_report(self, format: str = "json", path: str | None = None):
+        if self._profile_cache is None:
+            self.profile()
+
+        issues = self.check_quality()
+        score = self.quality_score()
+        suggestions = self.suggest_fixes()
+
+        report = ReportBuilder.build(
+            profile = self._profile_cache,
+            issues = issues,
+            score = score,
+            suggestions = suggestions
+        )
+
+        if format == "json":
+            exporter = JSONExporter()
+        else:
+            raise ValueError(f"Unsupported report format: {format}")
+        
+        return exporter.export(report, path)

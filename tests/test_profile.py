@@ -149,3 +149,23 @@ def test_suggestion_deduplication():
 
     drop_ops = [s for s in suggestions if s["operation"] == "drop_column"]
     assert len(drop_ops) == 1
+
+def test_export_report_returns_dict(tmp_path):
+    df = pd.DataFrame({"A": [1, None, 4]})
+    dc = DataCleaner(df)
+
+    report = dc.export_report()
+
+    assert "profile" in report
+    assert "quality_issues" in report
+    assert "quality_score" in report
+    assert "suggested_fixes" in report
+
+def test_export_report_writes_file(tmp_path):
+    df = pd.DataFrame({"A": [1, None, 4]})
+    dc = DataCleaner(df)
+
+    output_file = tmp_path / "report.json"
+    dc.export_report(path= str(output_file))
+
+    assert output_file.exists()
