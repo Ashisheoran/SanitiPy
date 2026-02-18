@@ -34,7 +34,7 @@ Designed for:
 - Startups building internal data tooling  
 
 ---
-
+ 
 ## 🧠 Design Philosophy
 
 SanitiPy follows strict engineering principles:
