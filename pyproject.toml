@@ -16,7 +16,8 @@ authors = [
 dependencies = [
     "pandas>=1.5",
     "numpy>=1.23",
-    "scikit-learn>=1.2"
+    "scikit-learn>=1.2",
+    "streamlit>=1.32"
 ]
 
 classifiers = [
