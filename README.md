@@ -9,7 +9,7 @@ It provides structured profiling, rule-based quality validation, explainable qua
 ```python
 from sanitify import DataCleaner
 ```
-
+ 
 ---
 
 ## 🚀 Why Sanitify?
