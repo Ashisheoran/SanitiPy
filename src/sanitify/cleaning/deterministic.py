@@ -24,8 +24,18 @@ class FixRegistry:
 
     @staticmethod
     def impute_mode(df: pd.DataFrame, column: str, params: Dict[str, Any]):
-        value = df[column].mode().iloc(0)
+        mode_series = df[column].mode()
+        if column not in df.columns:
+                return df
+
+        mode_series = df[column].mode()
+
+        if mode_series.empty:
+            return df
+        
+        value = mode_series.iloc[0]
         df[column] = df[column].fillna(value)
+
         return df
 
     @staticmethod

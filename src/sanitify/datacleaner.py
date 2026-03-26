@@ -15,6 +15,11 @@ from sanitify.core.quality import (
     DuplicateRateRule,
 )
 
+import logging
+logger = logging.getLogger(__name__)
+
+logger.debug("Running profile computation")
+
 class DataCleaner:
     """
     Public entry point for Sanitify.
@@ -61,7 +66,7 @@ class DataCleaner:
     
     # ------ML Suggestions------
     def suggest_fixes(self, confidence_threshold: float = 0.0):
-        if self._profile_cache == None:
+        if self._profile_cache is None:
             self.profile()
 
         issues = self.check_quality()
@@ -76,7 +81,7 @@ class DataCleaner:
     
     # ------Apply------
     def apply_fixes(self, approved):
-        if not isinstance(approved, List):
+        if not isinstance(approved, list):
             raise TypeError("approved must be a list of fix dictionaries")
 
         applier = FixApplier()
