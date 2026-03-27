@@ -9,6 +9,20 @@ It provides structured profiling, rule-based quality validation, explainable qua
 ```python
 from sanitify import DataCleaner
 ```
+
+## 🌐 Live Demo [![Live Demo](https://img.shields.io/badge/Live-Demo-red)](https://sanitify.streamlit.app)
+
+
+You can explore Sanitify through an interactive dashboard:
+
+- 🔗 Live App: https://sanitify.streamlit.app
+- 💻 Dashboard Code: https://github.com/Ashisheoran/sanitify-dashboard
+
+The dashboard allows you to:
+- Upload datasets
+- Analyze data quality
+- Apply fixes interactively
+- Export reports
  
 ---
 
