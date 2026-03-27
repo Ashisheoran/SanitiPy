@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sanitify"
-version = "0.1.2"
+version = "0.1.3"
 description = "Intelligent Data Quality Analysis and ML-Assisted Data Cleaning"
 readme = "README.md"
 requires-python = ">=3.9"
